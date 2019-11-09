@@ -1,0 +1,7 @@
+*.apk
+*.class
+*.jks
+*.flat
+*.dex
+*.so
+R.java

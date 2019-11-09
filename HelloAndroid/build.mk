@@ -1,4 +1,4 @@
-all: HelloAndroid
+all: HelloAndroid.apk
 
 src\com\example\helloandroid\R.java: res\layout\activity_main.xml AndroidManifest.xml
 	aapt package -f -m -J src -M AndroidManifest.xml -S res -I C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar
@@ -17,5 +17,5 @@ HelloAndroid_unsigned-aligned.apk: hello.unaligned.apk
 	del HelloAndroid_unsigned-aligned.apk
 	zipalign -v -p 4 hello.unaligned.apk HelloAndroid_unsigned-aligned.apk
 
-HelloAndroid: HelloAndroid_unsigned-aligned.apk
+HelloAndroid.apk: HelloAndroid_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out HelloAndroid.apk HelloAndroid_unsigned-aligned.apk

@@ -15,4 +15,4 @@ WriteFile.apk: WriteFile_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out WriteFile.apk WriteFile_unsigned-aligned.apk
 
 clean:
-	del WriteFile.apk WriteFile_unsigned-aligned.apk output.apk lib\arm64-v8a\libWriteFile.so
+	del *.apk lib\arm64-v8a\libWriteFile.so
