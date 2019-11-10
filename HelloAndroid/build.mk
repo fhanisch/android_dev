@@ -4,7 +4,7 @@ src\com\example\helloandroid\R.java: res\layout\activity_main.xml AndroidManifes
 	aapt package -f -m -J src -M AndroidManifest.xml -S res -I C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar
 
 obj/com/example/helloandroid/MainActivity.class: src/com/example/helloandroid/MainActivity.java src/com/example/helloandroid/R.java
-	javac -d obj -classpath src -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/example/helloandroid/*.java
+	javac -d obj -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/example/helloandroid/*.java
 
 classes.dex: obj/com/example/helloandroid/MainActivity.class
 	dx --dex --output=classes.dex obj
@@ -19,3 +19,6 @@ HelloAndroid_unsigned-aligned.apk: hello.unaligned.apk
 
 HelloAndroid.apk: HelloAndroid_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out HelloAndroid.apk HelloAndroid_unsigned-aligned.apk
+
+clean:
+	del *.apk del obj\com\example\helloandroid\*.class *.flat *.dex src\com\example\helloandroid\R.java

@@ -7,7 +7,7 @@ output.apk src\com\example\helloandroid\R.java: AndroidManifest.xml layout_activ
 	aapt2 link -o output.apk -I C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar --manifest AndroidManifest.xml layout_activity_main.xml.flat values_strings.arsc.flat --java src 
 
 obj\com\example\helloandroid\MainActivity.class: src/com/example/helloandroid/MainActivity.java src\com\example\helloandroid\R.java
-	javac -d obj -classpath src -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/example/helloandroid/*.java
+	javac -d obj -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/example/helloandroid/*.java
 
 classes.dex: obj\com\example\helloandroid\MainActivity.class output.apk
 	d8 obj\com\example\helloandroid\*.class --lib C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar
@@ -21,4 +21,4 @@ HelloAndroid.apk: HelloAndroid_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out HelloAndroid.apk HelloAndroid_unsigned-aligned.apk
 
 clean:
-	del *.apk
+	del *.apk del obj\com\example\helloandroid\*.class *.flat *.dex src\com\example\helloandroid\R.java

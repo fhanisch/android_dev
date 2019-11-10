@@ -1,7 +1,7 @@
 all: HelloAndroid2.apk
 
 obj\com\helloandroid\HelloAndroid2.class: src/com/helloandroid/HelloAndroid2.java
-	javac -d obj -classpath src -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/helloandroid/HelloAndroid2.java
+	javac -d obj -bootclasspath C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar src/com/helloandroid/HelloAndroid2.java
 
 output.apk: AndroidManifest.xml
 	aapt2 link -o output.apk -I C:\Users\Felix\AppData\Local\Android\Sdk\platforms\android-28\android.jar --manifest AndroidManifest.xml 
@@ -18,4 +18,4 @@ HelloAndroid2.apk: HelloAndroid2_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out HelloAndroid2.apk HelloAndroid2_unsigned-aligned.apk
 
 clean:
-	del *.apk
+	del *.apk obj\com\helloandroid\*.class
