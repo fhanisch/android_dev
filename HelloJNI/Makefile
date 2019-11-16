@@ -21,4 +21,4 @@ HelloJNI.apk: HelloJNI_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out HelloJNI.apk HelloJNI_unsigned-aligned.apk
 
 clean:
-	del *.apk lib\arm64-v8a\*.so obj\com\hellojni\*.class
+	del *.apk lib\arm64-v8a\*.so obj\com\hellojni\*.class *.dex
