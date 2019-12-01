@@ -1,15 +1,14 @@
-#include <stdio.h>
-#include <string.h>
 #include <time.h>
 #include <dlfcn.h>
 
 #include "android_native_app_glue.h"
 
-#define VK_NO_PROTOTYPES
-#include <vulkan/vulkan.h>
+#include "app.h"
 
 PFN_vkEnumerateInstanceVersion vkEnumerateInstanceVersion;
 PFN_vkCreateInstance vkCreateInstance;
+PFN_vkEnumerateInstanceLayerProperties vkEnumerateInstanceLayerProperties;
+PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties;
 
 void android_main(struct android_app* state)
 {
@@ -56,48 +55,26 @@ void android_main(struct android_app* state)
         return;
     }
 
-    uint32_t apiVersion;
-	vkEnumerateInstanceVersion(&apiVersion);
-	sprintf(buf, "Supported Api Version: %u.%u.%u\n", VK_VERSION_MAJOR(apiVersion), VK_VERSION_MINOR(apiVersion), VK_VERSION_PATCH(apiVersion));
-    fwrite(buf, strlen(buf), 1, file);
-
-    VkApplicationInfo app_info = {};
-    app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    app_info.pNext = NULL;
-    app_info.pApplicationName = "VulkanApp";
-    app_info.applicationVersion = 1;
-    app_info.pEngineName = "VulkanEngine";
-    app_info.engineVersion = 1;
-    app_info.apiVersion = VK_API_VERSION_1_0;
-
-    VkInstanceCreateInfo inst_info = {};
-    inst_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    inst_info.pNext = NULL;
-    inst_info.flags = 0;
-    inst_info.pApplicationInfo = &app_info;
-    inst_info.enabledExtensionCount = 0;
-    inst_info.ppEnabledExtensionNames = NULL;
-    inst_info.enabledLayerCount = 0;
-    inst_info.ppEnabledLayerNames = NULL;
-
-    VkInstance instance;
-    VkResult result;
-
-    result = vkCreateInstance(&inst_info, NULL, &instance);
-    if (result == VK_ERROR_INCOMPATIBLE_DRIVER) {
-        strcpy(buf, "cannot find a compatible Vulkan ICD\n");
-        fwrite(buf, strlen(buf), 1, file);
-        fclose(file);
-        return;
-    } else if (result) {
-        strcpy(buf, "unknown error\n");
+    vkEnumerateInstanceLayerProperties = (PFN_vkEnumerateInstanceLayerProperties)dlsym(libvulkan, "vkEnumerateInstanceLayerProperties");
+    if (!vkEnumerateInstanceLayerProperties)
+    {
+        strcpy(buf, "Find Symbol 'vkEnumerateInstanceLayerProperties' failed!\n");
         fwrite(buf, strlen(buf), 1, file);
         fclose(file);
         return;
     }
 
-    strcpy(buf, "Intance created.\n");
-    fwrite(buf, strlen(buf), 1, file);
+    vkEnumerateInstanceExtensionProperties = (PFN_vkEnumerateInstanceExtensionProperties)dlsym(libvulkan, "vkEnumerateInstanceExtensionProperties");
+    if (!vkEnumerateInstanceExtensionProperties)
+    {
+        strcpy(buf, "Find Symbol 'vkEnumerateInstanceExtensionProperties' failed!\n");
+        fwrite(buf, strlen(buf), 1, file);
+        fclose(file);
+        return;
+    }
+
+    startApp(file);
+
 	fclose(file);
 
     while(1);
