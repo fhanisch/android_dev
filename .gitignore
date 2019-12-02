@@ -3,6 +3,7 @@
 *.jks
 *.flat
 *.dex
+*.o
 *.so
 R.java
 *.jar

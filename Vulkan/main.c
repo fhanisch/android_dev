@@ -1,14 +1,12 @@
 #include <time.h>
 #include <dlfcn.h>
-
-#include "android_native_app_glue.h"
-
 #include "app.h"
 
 PFN_vkEnumerateInstanceVersion vkEnumerateInstanceVersion;
 PFN_vkCreateInstance vkCreateInstance;
 PFN_vkEnumerateInstanceLayerProperties vkEnumerateInstanceLayerProperties;
 PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties;
+PFN_vkCreateAndroidSurfaceKHR vkCreateAndroidSurfaceKHR;
 
 void android_main(struct android_app* state)
 {
@@ -22,7 +20,7 @@ void android_main(struct android_app* state)
     FILE* file = fopen("/storage/emulated/0/Dokumente/VulkanApp.log.txt", "a");
 	if (file == NULL) return;
 
-    strcpy(buf, "*** Vulkan App ***\n==================\n\n");
+    strcpy(buf, "\n==================\n*** Vulkan App ***\n==================\n\n");
     fwrite(buf, strlen(buf), 1, file);
     fwrite(c_time_string, strlen(c_time_string), 1, file);
     strcpy(buf, "\n");
@@ -73,7 +71,16 @@ void android_main(struct android_app* state)
         return;
     }
 
-    startApp(file);
+    vkCreateAndroidSurfaceKHR = (PFN_vkCreateAndroidSurfaceKHR)dlsym(libvulkan, "vkCreateAndroidSurfaceKHR");
+    if (!vkCreateAndroidSurfaceKHR)
+    {
+        strcpy(buf, "Find Symbol 'vkCreateAndroidSurfaceKHR' failed!\n");
+        fwrite(buf, strlen(buf), 1, file);
+        fclose(file);
+        return;
+    }
+
+    startApp(state, file);
 
 	fclose(file);
 
