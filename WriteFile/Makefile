@@ -1,4 +1,4 @@
-ANDROID_JAR=/root/Android/Sdk/platforms/android-28/android.jar
+ANDROID_JAR=/home/felix/Android/Sdk/platforms/android-28/android.jar
 
 all: WriteFile.apk
 
@@ -17,4 +17,4 @@ WriteFile.apk: WriteFile_unsigned-aligned.apk
 	apksigner sign --ks my-release-key.jks --out WriteFile.apk WriteFile_unsigned-aligned.apk
 
 clean:
-	rm *.apk lib/arm64-v8a/libWriteFile.so
+	rm -f *.apk lib/arm64-v8a/libWriteFile.so
