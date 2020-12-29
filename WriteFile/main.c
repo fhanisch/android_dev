@@ -11,6 +11,7 @@ void android_main(struct android_app* state)
 {
 	char msg[] = "HalliHallo!!!\n";
 	char str[] = "Das ist das Haus vom Nikolaus.\n";
+	char newRow[] = "\n\n";
 	const char* internalDataPath;
 
 	internalDataPath = state->activity->internalDataPath;
@@ -21,6 +22,7 @@ void android_main(struct android_app* state)
 	fwrite(msg, strlen(msg), 1, file);
 	fwrite(str, strlen(str), 1, file);
 	fwrite(internalDataPath, strlen(internalDataPath), 1, file);
+	fwrite(newRow, strlen(newRow), 1, file);
 	fclose(file);
 	while (1);
 }
