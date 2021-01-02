@@ -22,6 +22,7 @@ public class DLtest extends Activity {
 		TextView  tv = new TextView(this);
 		
 		String libPath = getApplicationInfo().nativeLibraryDir;
+		//String libPath = getApplicationInfo().publicSourceDir;
 		tv.setText(stringFromJNI(libPath));
 		
 		//String property = System.getProperty("java.library.path");

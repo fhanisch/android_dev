@@ -1,12 +1,12 @@
-ANDROID_JAR=/root/Android/Sdk/platforms/android-28/android.jar
+ANDROID_JAR=C:/Users/Felix/AppData/Local/Android/Sdk/platforms/android-28/android.jar
 
 all: DLtest.apk
 
 lib/arm64-v8a/libnative-lib.so: src/c/native-lib.c
 	aarch64-linux-android28-clang -shared -o lib/arm64-v8a/libnative-lib.so src/c/native-lib.c -ldl
-	aarch64-linux-android28-clang -shared -o lib/arm64-v8a/libtest.so src/c/sl.c
+	aarch64-linux-android28-clang -shared -o lib/arm64-v8a/libget_message.so src/c/get_message.c
 	armv7a-linux-androideabi19-clang -shared -o lib/armeabi-v7a/libnative-lib.so src/c/native-lib.c -ldl
-	armv7a-linux-androideabi19-clang -shared -o lib/armeabi-v7a/libtest.so src/c/sl.c
+	armv7a-linux-androideabi19-clang -shared -o lib/armeabi-v7a/libget_message.so src/c/get_message.c
 
 obj/com/dltest/DLtest.class: src/com/dltest/DLtest.java
 	javac -d obj -bootclasspath $(ANDROID_JAR) src/com/dltest/DLtest.java
@@ -19,7 +19,7 @@ classes.dex: obj/com/dltest/DLtest.class output.apk lib/arm64-v8a/libnative-lib.
 	7z a output.apk classes.dex lib/
 
 DLtest_unsigned-aligned.apk: classes.dex
-	rm -f DLtest_unsigned-aligned.apk
+	del DLtest_unsigned-aligned.apk
 	zipalign -v -p 4 output.apk DLtest_unsigned-aligned.apk
 
 DLtest.apk: DLtest_unsigned-aligned.apk

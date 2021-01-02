@@ -1,6 +1,6 @@
 static char msg[] = "Hello from shared library!\n";
 
-char* getStr()
+char* getMessage()
 {
 	return msg;
 }

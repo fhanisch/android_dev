@@ -6,7 +6,7 @@ char* getStr();
 
 JNIEXPORT jstring JNICALL Java_com_sotest_SOtest_stringFromJNI(JNIEnv* env, jobject thisObject, jstring jLibPath)
 {
-	char msg[] = "*** DL-Test ***\n\n";
+	char msg[] = "*** SharedLibrary-Test ***\n\n";
 	const char* libPath = (*env)->GetStringUTFChars(env, jLibPath, NULL);
 	
 	FILE* file = fopen("/storage/emulated/0/Dokumente/SOtest.log.txt", "a");
